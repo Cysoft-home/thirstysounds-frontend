@@ -37,7 +37,7 @@ export default function AgeVerificationGate({ children }) {
         <div className={styles.card}>
           <div className={styles.header}>
             <h1 className={styles.title}>ThirstySounds</h1>
-            <p className={styles.subtitle}>Adult Content Warning</p>
+            <p className={styles.subtitle}>Adult Content Warning!!!</p>
           </div>
 
           <div className={styles.content}>
