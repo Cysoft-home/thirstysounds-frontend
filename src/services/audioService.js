@@ -1,3 +1,4 @@
+// services/audioService.js
 import api from './api';
 
 const audioService = {
@@ -26,6 +27,22 @@ const audioService = {
   getAllAudios: async (params = {}) => {
     try {
       const response = await api.get('/audio/audios/', { params });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
+  /**
+   * Get featured audio files
+   * @param {number} pageSize - Number of featured items to return
+   * @returns {Promise} Featured audio list
+   */
+  getFeaturedAudio: async (pageSize = 50) => {
+    try {
+      const response = await api.get('/audio/featured/', {
+        params: { page_size: pageSize },
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -183,4 +200,5 @@ const audioService = {
   },
 };
 
+// Export as a named export (for import { audioService } from '../services/audioService')
 export default audioService;

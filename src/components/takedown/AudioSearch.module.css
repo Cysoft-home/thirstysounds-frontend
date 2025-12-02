@@ -1,0 +1,620 @@
+/* components/takedown/AudioSearch.module.css */
+
+.audioSearch {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Search Container */
+.searchContainer {
+  position: relative;
+  width: 100%;
+}
+
+.searchInputWrapper {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 1rem 3rem 1rem 1.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  color: #111827;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #9333ea;
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+}
+
+.clearButton {
+  position: absolute;
+  right: 3.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.clearButton:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-size: 1.25rem;
+}
+
+.searchInstructions {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* Loading State */
+.loadingState {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #e5e7eb;
+  border-top-color: #9333ea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error State */
+.errorState {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  color: #991b1b;
+  margin-bottom: 1rem;
+}
+
+.errorIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+/* Results Dropdown */
+.resultsDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  margin-top: 0.25rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.resultsHeader {
+  padding: 0.75rem 1rem;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.resultsCount {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.resultsList {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.resultItem {
+  width: 100%;
+  padding: 1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.resultItem:hover {
+  background: #f9fafb;
+}
+
+.resultItem:last-child {
+  border-bottom: none;
+}
+
+.audioInfo {
+  flex: 1;
+}
+
+.audioTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.audioCreator {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.audioCategory,
+.audioDuration {
+  display: inline-block;
+  font-size: 0.625rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 1rem;
+  background: #f3f4f6;
+  color: #4b5563;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+
+.selectArrow {
+  color: #9333ea;
+  font-size: 1.25rem;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.2s ease;
+}
+
+.resultItem:hover .selectArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* No Results */
+.noResults {
+  padding: 2rem 1rem;
+  text-align: center;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.noResults p {
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.noResultsHelp {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Selected Audio */
+.selectedAudio {
+  margin-top: 2rem;
+}
+
+.selectedHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.selectedTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.changeSelection {
+  background: none;
+  border: none;
+  color: #9333ea;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.changeSelection:hover {
+  background: #faf5ff;
+  text-decoration: underline;
+}
+
+.selectedContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Audio Card */
+.audioCard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.audioCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.audioCardIcon {
+  font-size: 2rem;
+}
+
+.audioCardInfo {
+  flex: 1;
+}
+
+.audioCardTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.audioCardCreator {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.audioCardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metaLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.metaValue {
+  font-size: 0.875rem;
+  color: #111827;
+  font-weight: 600;
+}
+
+.audioCardActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.viewDetails {
+  padding: 0.5rem 1rem;
+  background: #f9fafb;
+  color: #4b5563;
+  text-decoration: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.viewDetails:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+/* Confirmation Note */
+.confirmationNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 0.5rem;
+}
+
+.checkIcon {
+  font-size: 1.25rem;
+  color: #059669;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.confirmationNote p {
+  color: #0c4a6e;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.confirmationNote strong {
+  color: #0369a1;
+}
+
+/* Search Tips */
+.searchTips {
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.tipsTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.tipsList {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.tipsList li {
+  color: #4b5563;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.tipsList li:last-child {
+  margin-bottom: 0;
+}
+
+/* Dark Mode Support */
+:global(.takedownPageDark) .searchInput {
+  background: #1f2937;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .searchInput:focus {
+  border-color: #c084fc;
+  box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.2);
+}
+
+:global(.takedownPageDark) .searchInput::placeholder {
+  color: #9ca3af;
+}
+
+:global(.takedownPageDark) .clearButton:hover {
+  background: #4b5563;
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .searchInstructions,
+:global(.takedownPageDark) .noResults p,
+:global(.takedownPageDark) .noResultsHelp {
+  color: #d1d5db;
+}
+
+:global(.takedownPageDark) .loadingState,
+:global(.takedownPageDark) .resultsHeader,
+:global(.takedownPageDark) .noResults {
+  background: #374151;
+}
+
+:global(.takedownPageDark) .errorState {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #fecaca;
+}
+
+:global(.takedownPageDark) .resultsDropdown {
+  background: #1f2937;
+  border-color: #4b5563;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+:global(.takedownPageDark) .resultItem {
+  border-bottom-color: #374151;
+}
+
+:global(.takedownPageDark) .resultItem:hover {
+  background: #374151;
+}
+
+:global(.takedownPageDark) .audioTitle {
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .audioCreator {
+  color: #9ca3af;
+}
+
+:global(.takedownPageDark) .audioCategory,
+:global(.takedownPageDark) .audioDuration {
+  background: #4b5563;
+  color: #d1d5db;
+}
+
+:global(.takedownPageDark) .resultsCount {
+  color: #d1d5db;
+}
+
+:global(.takedownPageDark) .selectedTitle {
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .changeSelection {
+  color: #c084fc;
+}
+
+:global(.takedownPageDark) .changeSelection:hover {
+  background: rgba(192, 132, 252, 0.1);
+}
+
+:global(.takedownPageDark) .audioCard {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+:global(.takedownPageDark) .audioCardTitle {
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .audioCardCreator {
+  color: #9ca3af;
+}
+
+:global(.takedownPageDark) .audioCardMeta {
+  border-bottom-color: #4b5563;
+}
+
+:global(.takedownPageDark) .metaValue {
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .viewDetails {
+  background: #4b5563;
+  border-color: #6b7280;
+  color: #d1d5db;
+}
+
+:global(.takedownPageDark) .viewDetails:hover {
+  background: #6b7280;
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .confirmationNote {
+  background: rgba(14, 165, 233, 0.1);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+:global(.takedownPageDark) .confirmationNote p {
+  color: #bae6fd;
+}
+
+:global(.takedownPageDark) .confirmationNote strong {
+  color: #7dd3fc;
+}
+
+:global(.takedownPageDark) .searchTips {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+:global(.takedownPageDark) .tipsTitle {
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .tipsList li {
+  color: #d1d5db;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .searchInput {
+    padding: 0.875rem 3rem 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .clearButton {
+    right: 3rem;
+  }
+
+  .audioCardMeta {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .audioCardActions {
+    justify-content: stretch;
+  }
+
+  .viewDetails {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Focus Styles */
+.searchInput:focus,
+.resultItem:focus,
+.changeSelection:focus,
+.viewDetails:focus {
+  outline: 2px solid #9333ea;
+  outline-offset: 2px;
+}
+
+:global(.takedownPageDark) .searchInput:focus,
+:global(.takedownPageDark) .resultItem:focus,
+:global(.takedownPageDark) .changeSelection:focus,
+:global(.takedownPageDark) .viewDetails:focus {
+  outline-color: #c084fc;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+
+  .resultItem:hover .selectArrow {
+    transition: none;
+  }
+}

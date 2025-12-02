@@ -1,0 +1,726 @@
+/* pages/DMCA.module.css */
+
+/* Page Container */
+.dmcaPage {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #faf5ff, #fce7f3, #eff6ff);
+  transition: background 0.3s ease;
+}
+
+.dmcaPageDark {
+  background: linear-gradient(to bottom right, #111827, #581c87, #111827);
+}
+
+/* Main Container */
+.dmcaContainer {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .dmcaContainer {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dmcaContainer {
+    padding: 3rem 2rem;
+  }
+}
+
+/* Content Wrapper */
+.dmcaContent {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.dmcaPageDark .dmcaContent {
+  background: #1f2937;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dmcaPageDark .breadcrumb {
+  border-bottom-color: #374151;
+}
+
+.breadcrumbLink {
+  color: #9333ea;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbLink:hover {
+  color: #7e22ce;
+  text-decoration: underline;
+}
+
+.dmcaPageDark .breadcrumbLink {
+  color: #c084fc;
+}
+
+.dmcaPageDark .breadcrumbLink:hover {
+  color: #a855f7;
+}
+
+.breadcrumbSeparator {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.dmcaPageDark .breadcrumbSeparator {
+  color: #9ca3af;
+}
+
+.breadcrumbCurrent {
+  color: #4b5563;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.dmcaPageDark .breadcrumbCurrent {
+  color: #d1d5db;
+}
+
+/* Header */
+.dmcaHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.dmcaPageDark .dmcaHeader {
+  border-bottom-color: #374151;
+}
+
+.dmcaTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.dmcaPageDark .dmcaTitle {
+  color: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .dmcaTitle {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dmcaTitle {
+    font-size: 3.5rem;
+  }
+}
+
+.dmcaSubtitle {
+  color: #4b5563;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.dmcaPageDark .dmcaSubtitle {
+  color: #d1d5db;
+}
+
+.dmcaLastUpdated {
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.dmcaPageDark .dmcaLastUpdated {
+  color: #9ca3af;
+}
+
+/* Important Notice */
+.importantNotice {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 2px solid #f59e0b;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.dmcaPageDark .importantNotice {
+  background: linear-gradient(135deg, #78350f, #92400e);
+  border-color: #f59e0b;
+}
+
+.noticeIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.noticeContent {
+  flex: 1;
+}
+
+.noticeTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 0.5rem;
+}
+
+.dmcaPageDark .noticeTitle {
+  color: #fde68a;
+}
+
+.noticeText {
+  color: #92400e;
+  line-height: 1.6;
+}
+
+.dmcaPageDark .noticeText {
+  color: #fde68a;
+}
+
+/* Introduction */
+.introSection {
+  margin-bottom: 2rem;
+}
+
+.introText {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #374151;
+  text-align: center;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+}
+
+.dmcaPageDark .introText {
+  color: #d1d5db;
+  background: #374151;
+}
+
+/* Table of Contents */
+.tableOfContents {
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 3rem;
+  border-left: 4px solid #dc2626;
+}
+
+.dmcaPageDark .tableOfContents {
+  background: #374151;
+  border-left-color: #ef4444;
+}
+
+.tocTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.dmcaPageDark .tocTitle {
+  color: #ffffff;
+}
+
+.tocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  columns: 1;
+}
+
+@media (min-width: 768px) {
+  .tocList {
+    columns: 2;
+  }
+}
+
+.tocList li {
+  margin-bottom: 0.75rem;
+  break-inside: avoid;
+}
+
+.tocLink {
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  transition: all 0.2s ease;
+  display: inline-block;
+  padding: 0.25rem 0;
+}
+
+.tocLink:hover {
+  color: #dc2626;
+  transform: translateX(5px);
+}
+
+.dmcaPageDark .tocLink {
+  color: #d1d5db;
+}
+
+.dmcaPageDark .tocLink:hover {
+  color: #ef4444;
+}
+
+/* DMCA Sections */
+.dmcaSections {
+  margin-bottom: 3rem;
+}
+
+.dmcaSection {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dmcaPageDark .dmcaSection {
+  border-bottom-color: #374151;
+}
+
+.dmcaSection:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  line-height: 1.3;
+}
+
+.dmcaPageDark .sectionTitle {
+  color: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .sectionTitle {
+    font-size: 1.75rem;
+  }
+}
+
+.dmcaSection p {
+  color: #4b5563;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.dmcaPageDark .dmcaSection p {
+  color: #d1d5db;
+}
+
+/* Requirements List */
+.requirementsList {
+  list-style: decimal;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.requirementsList li {
+  color: #4b5563;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  padding-left: 0.5rem;
+}
+
+.dmcaPageDark .requirementsList li {
+  color: #d1d5db;
+}
+
+.requirementsList strong {
+  color: #111827;
+  font-weight: 700;
+}
+
+.dmcaPageDark .requirementsList strong {
+  color: #ffffff;
+}
+
+/* Submission Info */
+.submissionInfo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .submissionInfo {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.submissionMethod {
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.dmcaPageDark .submissionMethod {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.methodTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.dmcaPageDark .methodTitle {
+  color: #ffffff;
+}
+
+.methodDetail {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.dmcaPageDark .methodDetail {
+  color: #d1d5db;
+}
+
+/* Processing Info */
+.processingInfo {
+  background: #f0f9ff;
+  border-left: 4px solid #0ea5e9;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.dmcaPageDark .processingInfo {
+  background: #1e3a8a;
+  border-left-color: #60a5fa;
+}
+
+.processingTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0369a1;
+  margin-bottom: 0.75rem;
+}
+
+.dmcaPageDark .processingTitle {
+  color: #93c5fd;
+}
+
+/* Counter List */
+.counterList {
+  list-style: disc;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.counterList li {
+  color: #4b5563;
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+
+.dmcaPageDark .counterList li {
+  color: #d1d5db;
+}
+
+/* Agent Info */
+.agentInfo {
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.dmcaPageDark .agentInfo {
+  background: #374151;
+}
+
+.agentInfo p {
+  margin-bottom: 0.75rem;
+  color: #4b5563;
+}
+
+.dmcaPageDark .agentInfo p {
+  color: #d1d5db;
+}
+
+.agentInfo strong {
+  color: #111827;
+  font-weight: 700;
+}
+
+.dmcaPageDark .agentInfo strong {
+  color: #ffffff;
+}
+
+/* Warning Box */
+.warningBox {
+  background: #fef2f2;
+  border: 2px solid #dc2626;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.dmcaPageDark .warningBox {
+  background: #7f1d1d;
+  border-color: #ef4444;
+}
+
+.warningIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.warningText {
+  color: #dc2626;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.dmcaPageDark .warningText {
+  color: #fca5a5;
+}
+
+/* Contact Details */
+.contactDetails {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .contactDetails {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.contactMethod {
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.dmcaPageDark .contactMethod {
+  background: #374151;
+}
+
+.contactTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.dmcaPageDark .contactTitle {
+  color: #ffffff;
+}
+
+.responseTime {
+  background: #f0f9ff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: #0369a1;
+  font-size: 0.95rem;
+}
+
+.dmcaPageDark .responseTime {
+  background: #1e3a8a;
+  color: #93c5fd;
+}
+
+/* Action Section */
+.actionSection {
+  margin: 3rem 0;
+}
+
+.actionBox {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  border-radius: 0.75rem;
+  padding: 2.5rem;
+  text-align: center;
+  color: white;
+}
+
+.dmcaPageDark .actionBox {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+}
+
+.actionTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.actionText {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .actionButtons {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.emailButton {
+  background: white;
+  color: #dc2626;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+  border: 2px solid white;
+}
+
+.emailButton:hover {
+  background: #f9fafb;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contactButton {
+  background: transparent;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+  border: 2px solid white;
+}
+
+.contactButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.homeButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.homeButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Legal Disclaimer */
+.legalDisclaimer {
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  border-left: 4px solid #6b7280;
+}
+
+.dmcaPageDark .legalDisclaimer {
+  background: #374151;
+  border-left-color: #9ca3af;
+}
+
+.disclaimerText {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.dmcaPageDark .disclaimerText {
+  color: #d1d5db;
+}
+
+.disclaimerText strong {
+  color: #111827;
+}
+
+.dmcaPageDark .disclaimerText strong {
+  color: #ffffff;
+}
+
+/* Print Styles */
+@media print {
+  .dmcaPage {
+    background: white !important;
+  }
+  
+  .dmcaContent {
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  
+  .breadcrumb,
+  .tableOfContents,
+  .actionSection {
+    display: none;
+  }
+  
+  .dmcaSection {
+    page-break-inside: avoid;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .tocLink:hover,
+  .emailButton:hover,
+  .contactButton:hover,
+  .homeButton:hover {
+    transform: none;
+  }
+}

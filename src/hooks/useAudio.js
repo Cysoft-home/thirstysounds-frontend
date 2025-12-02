@@ -1,75 +1,110 @@
-import { useState, useEffect } from 'react';
-import { audioService } from '../services';
+// hooks/useAudio.js
+import { useState, useEffect, useCallback } from 'react';
+import audioService from '../services/audioService';
 
 /**
- * Custom hook to fetch audio data
- * @param {number} page - Current page number
- * @param {number} pageSize - Items per page
- * @returns {object} Audio data, loading state, and error
+ * Custom hook to fetch audio data with refetch capability
  */
 export const useAudioList = (page = 1, pageSize = 20) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchAudio = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await audioService.getAudioList(page, pageSize);
-        setData(response);
-      } catch (err) {
-        setError(err.message || 'Failed to fetch audio');
-        console.error('Error fetching audio:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAudio();
+  const fetchAudio = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await audioService.getAudioList(page, pageSize);
+      setData(response);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch audio');
+      console.error('Error fetching audio:', err);
+    } finally {
+      setLoading(false);
+    }
   }, [page, pageSize]);
 
-  return { data, loading, error };
+  useEffect(() => {
+    fetchAudio();
+  }, [fetchAudio]);
+
+  const refetch = useCallback(() => {
+    fetchAudio();
+  }, [fetchAudio]);
+
+  return { data, loading, error, refetch };
+};
+
+/**
+ * Custom hook specifically for featured audio
+ */
+export const useFeaturedAudio = (pageSize = 50) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchFeaturedAudio = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await audioService.getFeaturedAudio(pageSize);
+      setData(response);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch featured audio');
+      console.error('Error fetching featured audio:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [pageSize]);
+
+  useEffect(() => {
+    fetchFeaturedAudio();
+  }, [fetchFeaturedAudio]);
+
+  const refetch = useCallback(() => {
+    fetchFeaturedAudio();
+  }, [fetchFeaturedAudio]);
+
+  return { data, loading, error, refetch };
 };
 
 /**
  * Custom hook to fetch single audio by ID
- * @param {number|string} id - Audio ID
- * @returns {object} Audio data, loading state, and error
  */
 export const useAudioById = (id) => {
   const [audio, setAudio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const fetchAudio = useCallback(async () => {
     if (!id) return;
 
-    const fetchAudio = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const response = await audioService.getAudioById(id);
-        setAudio(response);
-      } catch (err) {
-        setError(err.message || 'Failed to fetch audio');
-        console.error('Error fetching audio:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAudio();
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await audioService.getAudioById(id);
+      setAudio(response);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch audio');
+      console.error('Error fetching audio:', err);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
-  return { audio, loading, error };
+  useEffect(() => {
+    fetchAudio();
+  }, [fetchAudio]);
+
+  const refetch = useCallback(() => {
+    fetchAudio();
+  }, [fetchAudio]);
+
+  return { audio, loading, error, refetch };
 };
 
 /**
  * Custom hook for audio autocomplete search
- * @param {string} query - Search query
- * @returns {object} Search results, loading state, and error
  */
 export const useAudioSearch = (query) => {
   const [results, setResults] = useState([]);

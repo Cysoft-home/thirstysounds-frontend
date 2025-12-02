@@ -1,3 +1,5 @@
+/* ==================== GLOBAL STYLES ==================== */
+
 /* Main Container */
 .main {
   min-height: 100vh;
@@ -9,7 +11,30 @@
   background: linear-gradient(to bottom right, #111827, #581c87, #111827);
 }
 
-/* Hero Section */
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== HERO SECTION ==================== */
+
+/* Hero Section Container */
 .heroSection {
   max-width: 80rem;
   margin: 0 auto;
@@ -28,6 +53,7 @@
   }
 }
 
+/* Hero Content */
 .heroContent {
   text-align: center;
   animation: fadeIn 0.6s ease-out;
@@ -58,6 +84,7 @@
   }
 }
 
+/* Hero Title Gradient */
 .heroTitleGradient {
   background: linear-gradient(to right, #9333ea, #db2777);
   background-clip: text;
@@ -108,6 +135,8 @@
   }
 }
 
+/* ==================== BUTTONS ==================== */
+
 .buttonPrimary {
   background: linear-gradient(to right, #9333ea, #db2777);
   color: white;
@@ -157,7 +186,9 @@
   background-color: #374151;
 }
 
-/* Features Section */
+/* ==================== FEATURES/CAROUSEL SECTION ==================== */
+
+/* Features Section Container */
 .featuresSection {
   max-width: 80rem;
   margin: 0 auto;
@@ -176,6 +207,26 @@
   }
 }
 
+/* Section Title */
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #111827;
+}
+
+.mainDark .sectionTitle {
+  color: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .sectionTitle {
+    font-size: 2.5rem;
+  }
+}
+
+/* Legacy Features Grid (if still used) */
 .featuresGrid {
   display: grid;
   gap: 1.5rem;
@@ -250,7 +301,163 @@
   color: #d1d5db;
 }
 
-/* Footer */
+/* ==================== CAROUSEL STYLES ==================== */
+
+/* Carousel Container */
+.carouselContainer {
+  position: relative;
+}
+
+.carouselSlides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+}
+
+.carouselSlide {
+  min-width: 100%;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.carouselSlideActive {
+  opacity: 1;
+}
+
+/* Carousel Navigation Buttons */
+.carouselButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(to right, #9333ea, #db2777);
+  color: #fff;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.carouselButton:nth-of-type(1) {
+  left: 1rem;
+}
+
+.carouselButton:nth-of-type(2) {
+  right: 1rem;
+}
+
+.carouselButton:hover {
+  background: linear-gradient(to right, #7e22ce, #be185d);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Carousel Dot Indicators */
+.carouselDots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: #d1d5db;
+  transition: background-color 0.3s;
+}
+
+.dot:hover {
+  background-color: #9333ea;
+}
+
+.dotActive {
+  background: linear-gradient(to right, #9333ea, #db2777);
+}
+
+/* Carousel Loading and Error States */
+.carouselLoading,
+.carouselError,
+.carouselEmpty {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+  color: #4b5563;
+}
+
+.carouselError {
+  color: #ef4444;
+}
+
+/* ==================== ERROR & LOADING STATES ==================== */
+
+/* Error Container */
+.errorContainer {
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fef2f2;
+  border-radius: 0.5rem;
+  border: 1px solid #fecaca;
+}
+
+.mainDark .errorContainer {
+  background-color: #1f2937;
+  border-color: #7f1d1d;
+}
+
+.errorText {
+  color: #dc2626;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.mainDark .errorText {
+  color: #fca5a5;
+}
+
+/* Retry Button */
+.retryButton {
+  background: linear-gradient(to right, #9333ea, #db2777);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retryButton:hover {
+  background: linear-gradient(to right, #7e22ce, #be185d);
+  transform: scale(1.05);
+}
+
+/* Loading Indicator */
+.loadingIndicator {
+  text-align: center;
+  padding: 2rem;
+  color: #4b5563;
+  font-size: 1.1rem;
+}
+
+.mainDark .loadingIndicator {
+  color: #d1d5db;
+}
+
+/* ==================== FOOTER ==================== */
+
+/* Footer Container */
 .footer {
   background-color: white;
   border-top: 1px solid #e5e7eb;
@@ -281,6 +488,7 @@
   }
 }
 
+/* Footer Grid */
 .footerGrid {
   display: grid;
   grid-template-columns: 1fr;
@@ -299,6 +507,7 @@
   }
 }
 
+/* Footer Column */
 .footerColumn {
   /* Footer column styling */
 }
@@ -366,23 +575,21 @@
   color: #9ca3af;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* ==================== RESPONSIVE ADJUSTMENTS ==================== */
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@media (max-width: 768px) {
+  .carouselButton {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .carouselDots {
+    gap: 0.35rem;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
   }
 }

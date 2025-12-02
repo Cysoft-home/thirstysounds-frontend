@@ -1,0 +1,563 @@
+/* components/takedown/TakedownForm.module.css */
+
+.takedownForm {
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Form Sections */
+.formSection {
+  padding: 1.5rem;
+  background: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+:global(.takedownPageDark) .formSection {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.sectionHeader {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+:global(.takedownPageDark) .sectionTitle {
+  color: #ffffff;
+}
+
+.sectionDescription {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+:global(.takedownPageDark) .sectionDescription {
+  color: #d1d5db;
+}
+
+/* Form Grid */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Form Groups */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+:global(.takedownPageDark) .formLabel {
+  color: #ffffff;
+}
+
+.required {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Form Inputs */
+.formInput,
+.formTextarea {
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #111827;
+  background: white;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: #9333ea;
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+}
+
+.formInput::placeholder,
+.formTextarea::placeholder {
+  color: #9ca3af;
+}
+
+.formInput:disabled,
+.formTextarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #f9fafb;
+}
+
+:global(.takedownPageDark) .formInput,
+:global(.takedownPageDark) .formTextarea {
+  background: #1f2937;
+  border-color: #4b5563;
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .formInput:focus,
+:global(.takedownPageDark) .formTextarea:focus {
+  border-color: #c084fc;
+  box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.2);
+}
+
+:global(.takedownPageDark) .formInput:disabled,
+:global(.takedownPageDark) .formTextarea:disabled {
+  background: #4b5563;
+}
+
+.inputError {
+  border-color: #ef4444 !important;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Textarea Styles */
+.textareaHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.charCount {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+:global(.takedownPageDark) .charCount {
+  color: #9ca3af;
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.textareaTips {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border-left: 3px solid #9333ea;
+}
+
+.textareaTips strong {
+  color: #111827;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.textareaTips ul {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.25rem;
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.textareaTips li {
+  margin-bottom: 0.25rem;
+}
+
+.textareaTips li:last-child {
+  margin-bottom: 0;
+}
+
+:global(.takedownPageDark) .textareaTips {
+  background: #4b5563;
+  border-left-color: #c084fc;
+}
+
+:global(.takedownPageDark) .textareaTips strong {
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .textareaTips ul {
+  color: #d1d5db;
+}
+
+/* Relationship Options */
+.relationshipOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.relationshipOption {
+  display: flex;
+  align-items: flex-start;
+}
+
+.radioInput {
+  display: none;
+}
+
+.relationshipLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.relationshipLabel:hover {
+  border-color: #d1d5db;
+  background: #f9fafb;
+}
+
+.radioInput:checked + .relationshipLabel {
+  border-color: #9333ea;
+  background: #faf5ff;
+}
+
+.radioInput:disabled + .relationshipLabel {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+:global(.takedownPageDark) .relationshipLabel {
+  border-color: #4b5563;
+  background: #1f2937;
+}
+
+:global(.takedownPageDark) .relationshipLabel:hover {
+  border-color: #6b7280;
+  background: #374151;
+}
+
+:global(.takedownPageDark) .radioInput:checked + .relationshipLabel {
+  border-color: #c084fc;
+  background: rgba(192, 132, 252, 0.1);
+}
+
+.relationshipRadio {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  transition: all 0.2s ease;
+}
+
+.radioInput:checked + .relationshipLabel .relationshipRadio {
+  border-color: #9333ea;
+  background: #9333ea;
+}
+
+.radioInput:checked + .relationshipLabel .relationshipRadio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background: white;
+  border-radius: 50%;
+}
+
+:global(.takedownPageDark) .relationshipRadio {
+  border-color: #6b7280;
+}
+
+:global(.takedownPageDark)
+  .radioInput:checked
+  + .relationshipLabel
+  .relationshipRadio {
+  border-color: #c084fc;
+  background: #c084fc;
+}
+
+.relationshipContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.relationshipTitle {
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.875rem;
+}
+
+.relationshipDescription {
+  color: #6b7280;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+:global(.takedownPageDark) .relationshipTitle {
+  color: #ffffff;
+}
+
+:global(.takedownPageDark) .relationshipDescription {
+  color: #9ca3af;
+}
+
+/* Legal Agreement */
+.legalAgreement {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.legalText {
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.legalText p {
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.legalText p:last-child {
+  margin-bottom: 0;
+}
+
+.legalText strong {
+  color: #111827;
+}
+
+:global(.takedownPageDark) .legalText {
+  background: #4b5563;
+  border-color: #6b7280;
+}
+
+:global(.takedownPageDark) .legalText p {
+  color: #d1d5db;
+}
+
+:global(.takedownPageDark) .legalText strong {
+  color: #ffffff;
+}
+
+.legalCheckbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.checkboxInput {
+  display: none;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkboxInput:disabled + .checkboxLabel {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.checkboxCustom {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.375rem;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.checkboxInput:checked + .checkboxLabel .checkboxCustom {
+  background: #9333ea;
+  border-color: #9333ea;
+}
+
+.checkboxInput:checked + .checkboxLabel .checkboxCustom::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+:global(.takedownPageDark) .checkboxCustom {
+  background: #1f2937;
+  border-color: #6b7280;
+}
+
+:global(.takedownPageDark)
+  .checkboxInput:checked
+  + .checkboxLabel
+  .checkboxCustom {
+  background: #c084fc;
+  border-color: #c084fc;
+}
+
+.checkboxText {
+  color: #111827;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  flex: 1;
+}
+
+:global(.takedownPageDark) .checkboxText {
+  color: #ffffff;
+}
+
+/* Form Notes */
+.formNotes {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f0f9ff;
+  border-radius: 0.75rem;
+  border: 1px solid #bae6fd;
+}
+
+:global(.takedownPageDark) .formNotes {
+  background: rgba(14, 165, 233, 0.1);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.noteIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.noteContent {
+  flex: 1;
+}
+
+.noteContent p {
+  color: #0c4a6e;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.noteContent strong {
+  color: #0369a1;
+}
+
+:global(.takedownPageDark) .noteContent p {
+  color: #bae6fd;
+}
+
+:global(.takedownPageDark) .noteContent strong {
+  color: #7dd3fc;
+}
+
+/* Error Messages */
+.errorMessage {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.errorMessage::before {
+  content: '⚠️';
+  font-size: 0.875rem;
+}
+
+:global(.takedownPageDark) .errorMessage {
+  color: #fca5a5;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .formSection {
+    padding: 1rem;
+  }
+
+  .relationshipLabel {
+    padding: 0.75rem;
+  }
+
+  .legalText {
+    padding: 1rem;
+  }
+
+  .formNotes {
+    padding: 1rem;
+  }
+}
+
+/* Focus Styles */
+.formInput:focus,
+.formTextarea:focus,
+.radioInput:focus + .relationshipLabel,
+.checkboxInput:focus + .checkboxLabel {
+  outline: 2px solid #9333ea;
+  outline-offset: 2px;
+}
+
+:global(.takedownPageDark) .formInput:focus,
+:global(.takedownPageDark) .formTextarea:focus,
+:global(.takedownPageDark) .radioInput:focus + .relationshipLabel,
+:global(.takedownPageDark) .checkboxInput:focus + .checkboxLabel {
+  outline-color: #c084fc;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .formInput,
+  .formTextarea,
+  .relationshipLabel,
+  .checkboxCustom {
+    transition: none;
+  }
+}
