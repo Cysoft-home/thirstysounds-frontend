@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AgeVerificationGate from './components/AgeVerificationGate';
 import Home from './pages/Home';
 import Audio from './pages/Audio';
 import AudioDetail from './pages/AudioDetail';
@@ -10,7 +9,7 @@ import DMCA from './pages/DMCA';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import Takedown from './components/takedown/Takedown';
-
+import AgeVerificationGate from './components/AgeVerificationGate';
 import './App.css';
 
 function App() {

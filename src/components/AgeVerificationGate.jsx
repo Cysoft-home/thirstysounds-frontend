@@ -1,4 +1,4 @@
-// src/components/AgeVerificationGate/AgeVerificationGate.jsx
+// src/components/AgeVerificationGate.jsx
 import { useState, useEffect } from 'react';
 import styles from './AgeVerificationGate.module.css';
 
@@ -7,28 +7,72 @@ export default function AgeVerificationGate({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [showUnderageMessage, setShowUnderageMessage] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(null);
+
+  // Constants
+  const VERIFICATION_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  const STORAGE_KEYS = {
+    VERIFIED: 'ageVerified',
+    TIMESTAMP: 'ageVerifiedTimestamp',
+  };
 
   // Check verification on component mount
   useEffect(() => {
     const checkVerification = () => {
       try {
-        const verified = localStorage.getItem('ageVerified');
-        const timestamp = localStorage.getItem('ageVerifiedTimestamp');
+        const verified = localStorage.getItem(STORAGE_KEYS.VERIFIED);
+        const timestamp = localStorage.getItem(STORAGE_KEYS.TIMESTAMP);
 
-        // Check if verification is older than 30 days (optional re-verification)
+        console.log('🔍 Age Verification Check:', { verified, timestamp });
+
         if (timestamp) {
-          const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-          const isExpired = Date.now() - parseInt(timestamp) > THIRTY_DAYS;
+          const verificationTime = parseInt(timestamp);
+          const currentTime = Date.now();
+          const timeElapsed = currentTime - verificationTime;
+          const isExpired = timeElapsed > VERIFICATION_DURATION;
+
+          console.log('⏰ Time Check:', {
+            verificationTime: new Date(verificationTime).toLocaleString(),
+            currentTime: new Date(currentTime).toLocaleString(),
+            timeElapsed: Math.floor(timeElapsed / (60 * 60 * 1000)) + ' hours',
+            isExpired,
+            VERIFICATION_DURATION: '24 hours',
+          });
 
           if (isExpired) {
-            localStorage.removeItem('ageVerified');
-            localStorage.removeItem('ageVerifiedTimestamp');
+            // Verification expired - clear and require re-verification
+            console.log('⏳ Verification expired after 24 hours');
+            localStorage.removeItem(STORAGE_KEYS.VERIFIED);
+            localStorage.removeItem(STORAGE_KEYS.TIMESTAMP);
             setIsVerified(false);
+
+            // Calculate time until next verification (for UI display)
+            const nextVerificationTime =
+              verificationTime + VERIFICATION_DURATION;
+            setTimeRemaining(nextVerificationTime - currentTime);
           } else {
+            // Still valid
             setIsVerified(true);
+
+            // Calculate time until expiration
+            const timeUntilExpiry = VERIFICATION_DURATION - timeElapsed;
+            setTimeRemaining(timeUntilExpiry);
+
+            console.log(
+              '✅ Verification valid for',
+              Math.floor(timeUntilExpiry / (60 * 60 * 1000)) + ' more hours'
+            );
           }
         } else if (verified === 'true') {
-          setIsVerified(true);
+          // Legacy format (without timestamp) - treat as expired
+          console.log(
+            '🔄 Legacy verification found, requiring re-verification'
+          );
+          localStorage.removeItem(STORAGE_KEYS.VERIFIED);
+          setIsVerified(false);
+        } else {
+          // No verification found
+          setIsVerified(false);
         }
       } catch (error) {
         console.error('Error checking age verification:', error);
@@ -44,15 +88,41 @@ export default function AgeVerificationGate({ children }) {
     checkVerification();
   }, []);
 
+  // Update time remaining every minute
+  useEffect(() => {
+    if (!isVerified || !timeRemaining) return;
+
+    const interval = setInterval(() => {
+      setTimeRemaining((prev) => {
+        if (prev <= 60000) {
+          // Less than 1 minute
+          // Trigger re-verification
+          localStorage.removeItem(STORAGE_KEYS.VERIFIED);
+          localStorage.removeItem(STORAGE_KEYS.TIMESTAMP);
+          setIsVerified(false);
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 60000; // Subtract 1 minute
+      });
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, [isVerified, timeRemaining]);
+
   const handleVerify = (verified) => {
     if (verified) {
       // User is 18+
-      localStorage.setItem('ageVerified', 'true');
-      localStorage.setItem('ageVerifiedTimestamp', Date.now().toString());
+      const timestamp = Date.now();
+      localStorage.setItem(STORAGE_KEYS.VERIFIED, 'true');
+      localStorage.setItem(STORAGE_KEYS.TIMESTAMP, timestamp.toString());
       setIsVerified(true);
+      setTimeRemaining(VERIFICATION_DURATION);
 
-      // Optional: Send analytics event
-      console.log('User verified age as 18+');
+      console.log(
+        '✅ Age verified for 24 hours. Next verification at:',
+        new Date(timestamp + VERIFICATION_DURATION).toLocaleString()
+      );
     } else {
       // User is underage
       setShowUnderageMessage(true);
@@ -73,13 +143,32 @@ export default function AgeVerificationGate({ children }) {
 
   const handleExitSite = () => {
     // Clear verification and redirect
-    localStorage.removeItem('ageVerified');
-    localStorage.removeItem('ageVerifiedTimestamp');
+    localStorage.removeItem(STORAGE_KEYS.VERIFIED);
+    localStorage.removeItem(STORAGE_KEYS.TIMESTAMP);
     setIsExiting(true);
 
     setTimeout(() => {
       window.location.href = 'https://www.google.com';
     }, 1000);
+  };
+
+  const handleExtendVerification = () => {
+    // Re-verify to extend another 24 hours
+    console.log('User extending verification for another 24 hours');
+    handleVerify(true);
+  };
+
+  // Format time remaining for display
+  const formatTimeRemaining = (ms) => {
+    if (!ms || ms <= 0) return 'Expired';
+
+    const hours = Math.floor(ms / (60 * 60 * 1000));
+    const minutes = Math.floor((ms % (60 * 60 * 1000)) / (60 * 1000));
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    }
+    return `${minutes}m`;
   };
 
   if (isLoading) {
@@ -131,7 +220,24 @@ export default function AgeVerificationGate({ children }) {
 
             {/* Main Content */}
             <div className={styles.content}>
-              <h2 className={styles.title}>Age Verification Required</h2>
+              <h2 className={styles.title}>
+                {timeRemaining
+                  ? 'Verification Expired'
+                  : 'Age Verification Required'}
+              </h2>
+
+              {timeRemaining && (
+                <div className={styles.expiryNotice}>
+                  <div className={styles.clockIcon}>⏰</div>
+                  <p className={styles.expiryText}>
+                    Your age verification has expired. Please verify again to
+                    continue.
+                  </p>
+                  <p className={styles.expirySubtext}>
+                    Verification is required every 24 hours for your safety.
+                  </p>
+                </div>
+              )}
 
               <div className={styles.warningSection}>
                 <p className={styles.warningDescription}>
@@ -181,6 +287,10 @@ export default function AgeVerificationGate({ children }) {
                   Any unauthorized access or misrepresentation of age is
                   strictly prohibited and may result in legal action.
                 </p>
+                <p className={styles.verificationNote}>
+                  <strong>Note:</strong> Age verification is required every 24
+                  hours.
+                </p>
               </div>
             </div>
 
@@ -191,8 +301,10 @@ export default function AgeVerificationGate({ children }) {
                 className={styles.enterButton}
                 autoFocus
               >
-                <span className={styles.buttonIcon}>✅</span>I am 18 or older -
-                Enter Site
+                <span className={styles.buttonIcon}>✅</span>
+                {timeRemaining
+                  ? 'Verify Again - Enter Site'
+                  : 'I am 18 or older - Enter Site'}
               </button>
 
               <button
@@ -212,7 +324,8 @@ export default function AgeVerificationGate({ children }) {
                 third parties.
               </p>
               <p className={styles.footerNote}>
-                Need to report an issue?{' '}
+                <strong>24-Hour Policy:</strong> Verification expires every 24
+                hours for safety. Need to report an issue?{' '}
                 <a href="/contact" className={styles.footerLink}>
                   Contact us
                 </a>
@@ -229,7 +342,26 @@ export default function AgeVerificationGate({ children }) {
     <>
       {children}
 
-      {/* Optional: Add a discreet exit button for verified users */}
+      {/* Timer display for verified users */}
+      {timeRemaining && timeRemaining > 0 && (
+        <div className={styles.verificationTimer}>
+          <div className={styles.timerContent}>
+            <span className={styles.timerIcon}>⏳</span>
+            <span className={styles.timerText}>
+              Age verification valid for: {formatTimeRemaining(timeRemaining)}
+            </span>
+            <button
+              onClick={handleExtendVerification}
+              className={styles.extendButton}
+              title="Re-verify for another 24 hours"
+            >
+              Extend
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Exit button */}
       <button
         onClick={handleExitSite}
         className={styles.floatingExitButton}
