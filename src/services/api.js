@@ -1,58 +1,68 @@
-// In your Home.jsx or wherever you fetch featured audio
-const fetchFeaturedAudio = async () => {
-  try {
-    const apiUrl =
-      import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api/v1';
-    const response = await fetch(`${apiUrl}/audio/featured/?page_size=50`);
+import axios from 'axios';
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+// Create axios instance with base configuration
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  timeout: 10000, // 10 seconds
+});
+
+// Request interceptor - Add JWT token to requests
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor - Handle token refresh
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    // If error is 401 and we haven't tried to refresh yet
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const refreshToken = localStorage.getItem('refresh_token');
+
+        if (refreshToken) {
+          // Try to refresh the token
+          const response = await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/auth/token/refresh/`,
+            { refresh: refreshToken }
+          );
+
+          const { access } = response.data;
+
+          // Save new access token
+          localStorage.setItem('access_token', access);
+
+          // Retry original request with new token
+          originalRequest.headers.Authorization = `Bearer ${access}`;
+          return api(originalRequest);
+        }
+      } catch (refreshError) {
+        // Refresh failed - clear tokens and redirect to login
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        window.location.href = '/login';
+        return Promise.reject(refreshError);
+      }
     }
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching featured audio:', error);
-
-    // Return mock data if API fails
-    return getMockFeaturedAudio();
+    return Promise.reject(error);
   }
-};
+);
 
-// Mock data function
-const getMockFeaturedAudio = () => {
-  return {
-    results: [
-      {
-        id: 1,
-        title: 'Relaxing Rain Sounds',
-        creator_name: 'Nature Sounds Co.',
-        category: 'ASMR',
-        duration: '45:30',
-        description: 'Gentle rain sounds for relaxation and sleep',
-        thumbnail_url:
-          'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0',
-      },
-      {
-        id: 2,
-        title: 'Meditation Guide',
-        creator_name: 'Mindful Moments',
-        category: 'Guided Meditation',
-        duration: '20:15',
-        description: 'Guided meditation for stress relief',
-        thumbnail_url:
-          'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b',
-      },
-      {
-        id: 3,
-        title: 'Focus Music',
-        creator_name: 'Productive Audio',
-        category: 'Music',
-        duration: '60:00',
-        description: 'Concentration-enhancing music',
-        thumbnail_url:
-          'https://images.unsplash.com/photo-1511379938547-c1f69419868d',
-      },
-    ],
-  };
-};
+export default api;
