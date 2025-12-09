@@ -20,13 +20,31 @@ const audioService = {
   },
 
   /**
-   * Get all audios using ViewSet (with full CRUD)
+   * Get all audios using ViewSet
    * @param {object} params - Query parameters (page, search, filters, etc.)
    * @returns {Promise} Audio list
    */
   getAllAudios: async (params = {}) => {
     try {
-      const response = await api.get('/audio/audios/', { params });
+      const response = await api.get('/audio/', { params });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
+  /**
+   * Get single audio by ID with related audios
+   * @param {number|string} id - Audio ID
+   * @param {number} limit - Number of related audios to fetch (default: 6, max: 20)
+   * @returns {Promise} Audio details with related audios
+   */
+  getAudioById: async (id, limit = 6) => {
+    try {
+      // Correct endpoint: /api/v1/audio/{id}/?limit=6
+      const response = await api.get(`/audio/${id}/`, {
+        params: { limit },
+      });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -43,20 +61,6 @@ const audioService = {
       const response = await api.get('/audio/featured/', {
         params: { page_size: pageSize },
       });
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error.message;
-    }
-  },
-
-  /**
-   * Get single audio by ID
-   * @param {number|string} id - Audio ID
-   * @returns {Promise} Audio details
-   */
-  getAudioById: async (id) => {
-    try {
-      const response = await api.get(`/audio/audios/${id}/`);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -93,6 +97,20 @@ const audioService = {
   },
 
   /**
+   * Get category by slug
+   * @param {string} slug - Category slug
+   * @returns {Promise} Category details
+   */
+  getCategoryBySlug: async (slug) => {
+    try {
+      const response = await api.get(`/audio/categories/${slug}/`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
+  /**
    * Get category by ID
    * @param {number|string} id - Category ID
    * @returns {Promise} Category details
@@ -107,13 +125,27 @@ const audioService = {
   },
 
   /**
+   * Advanced audio search with filters
+   * @param {object} params - Search parameters (search, category__slug, tags__slug, etc.)
+   * @returns {Promise} Search results
+   */
+  searchAudio: async (params = {}) => {
+    try {
+      const response = await api.get('/audio/list/', { params });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
+  /**
    * Upload new audio (requires authentication)
    * @param {FormData} formData - Audio file and metadata
    * @returns {Promise} Created audio object
    */
   uploadAudio: async (formData) => {
     try {
-      const response = await api.post('/audio/audios/', formData, {
+      const response = await api.post('/audio/admin/audio/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -132,7 +164,7 @@ const audioService = {
    */
   updateAudio: async (id, data) => {
     try {
-      const response = await api.patch(`/audio/audios/${id}/`, data);
+      const response = await api.patch(`/audio/admin/audio/${id}/`, data);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -146,7 +178,21 @@ const audioService = {
    */
   deleteAudio: async (id) => {
     try {
-      const response = await api.delete(`/audio/audios/${id}/`);
+      const response = await api.delete(`/audio/admin/audio/${id}/`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
+  /**
+   * Get admin audio by ID
+   * @param {number|string} id - Audio ID
+   * @returns {Promise} Audio details
+   */
+  getAdminAudioById: async (id) => {
+    try {
+      const response = await api.get(`/audio/admin/audio/${id}/`);
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -162,7 +208,7 @@ const audioService = {
    */
   getAdminAudioList: async (params = {}) => {
     try {
-      const response = await api.get('/audio/admin/audios/', { params });
+      const response = await api.get('/audio/admin/audio/', { params });
       return response.data;
     } catch (error) {
       throw error.response?.data || error.message;
@@ -198,7 +244,52 @@ const audioService = {
       throw error.response?.data || error.message;
     }
   },
+
+  // ==================== ADVANCED ENDPOINTS ====================
+
+  /**
+   * Get audio with advanced related audios algorithm
+   * @param {number|string} id - Audio ID
+   * @param {number} limit - Number of related audios
+   * @param {string} strategy - 'smart' or 'tags'
+   * @returns {Promise} Audio details with advanced related audios
+   */
+  getAdvancedAudioById: async (id, limit = 6, strategy = 'smart') => {
+    try {
+      const response = await api.get(`/audio/${id}/advanced/`, {
+        params: { limit, strategy },
+      });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
+
+  /**
+   * Get related audios by category
+   * @param {string} categoryId - Category ID
+   * @param {number} limit - Number of audios to return
+   * @param {number} excludeId - Audio ID to exclude
+   * @returns {Promise} Related audios
+   */
+  getRelatedByCategory: async (categoryId, limit = 6, excludeId = null) => {
+    try {
+      const params = {
+        category__id: categoryId,
+        page_size: limit,
+        ordering: '-created_at',
+      };
+
+      if (excludeId) {
+        params.exclude = excludeId;
+      }
+
+      const response = await api.get('/audio/list/', { params });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error.message;
+    }
+  },
 };
 
-// Export as a named export (for import { audioService } from '../services/audioService')
 export default audioService;

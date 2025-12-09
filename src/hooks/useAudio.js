@@ -69,9 +69,11 @@ export const useFeaturedAudio = (pageSize = 50) => {
 };
 
 /**
- * Custom hook to fetch single audio by ID
+ * Custom hook to fetch single audio by ID with related audios
+ * @param {string|number} id - The audio ID
+ * @param {number} limit - Number of related audios to fetch (default: 6, max: 20)
  */
-export const useAudioById = (id) => {
+export const useAudioById = (id, limit = 6) => {
   const [audio, setAudio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -82,7 +84,17 @@ export const useAudioById = (id) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await audioService.getAudioById(id);
+
+      // Fetch audio with related audios using the limit parameter
+      const response = await audioService.getAudioById(id, limit);
+
+      // Log for debugging
+      console.log('Audio detail response:', response);
+      console.log(
+        'Related audios count:',
+        response?.related_audios?.length || 0
+      );
+
       setAudio(response);
     } catch (err) {
       setError(err.message || 'Failed to fetch audio');
@@ -90,7 +102,7 @@ export const useAudioById = (id) => {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, limit]);
 
   useEffect(() => {
     fetchAudio();
