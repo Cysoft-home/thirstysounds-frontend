@@ -141,34 +141,10 @@ export default function AgeVerificationGate({ children }) {
     }
   };
 
-  const handleExitSite = () => {
-    // Clear verification and redirect
-    localStorage.removeItem(STORAGE_KEYS.VERIFIED);
-    localStorage.removeItem(STORAGE_KEYS.TIMESTAMP);
-    setIsExiting(true);
-
-    setTimeout(() => {
-      window.location.href = 'https://www.google.com';
-    }, 1000);
-  };
-
   const handleExtendVerification = () => {
     // Re-verify to extend another 24 hours
     console.log('User extending verification for another 24 hours');
     handleVerify(true);
-  };
-
-  // Format time remaining for display
-  const formatTimeRemaining = (ms) => {
-    if (!ms || ms <= 0) return 'Expired';
-
-    const hours = Math.floor(ms / (60 * 60 * 1000));
-    const minutes = Math.floor((ms % (60 * 60 * 1000)) / (60 * 1000));
-
-    if (hours > 0) {
-      return `${hours}h ${minutes}m`;
-    }
-    return `${minutes}m`;
   };
 
   if (isLoading) {
@@ -337,39 +313,6 @@ export default function AgeVerificationGate({ children }) {
     );
   }
 
-  // Verified users see the app content
-  return (
-    <>
-      {children}
-
-      {/* Timer display for verified users */}
-      {timeRemaining && timeRemaining > 0 && (
-        <div className={styles.verificationTimer}>
-          <div className={styles.timerContent}>
-            <span className={styles.timerIcon}>⏳</span>
-            <span className={styles.timerText}>
-              Age verification valid for: {formatTimeRemaining(timeRemaining)}
-            </span>
-            <button
-              onClick={handleExtendVerification}
-              className={styles.extendButton}
-              title="Re-verify for another 24 hours"
-            >
-              Extend
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Exit button */}
-      <button
-        onClick={handleExitSite}
-        className={styles.floatingExitButton}
-        title="Exit site (clears age verification)"
-        aria-label="Exit site and clear age verification"
-      >
-        🚪 Exit
-      </button>
-    </>
-  );
+  // Verified users see the app content - NO TIMER OR EXIT BUTTON DISPLAYED
+  return <>{children}</>;
 }
