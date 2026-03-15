@@ -75,24 +75,18 @@ export default function Contact() {
     {
       icon: '📞',
       title: 'Call Us',
-      details: [
-        '+1 (555) 123-4567',
-        'Mon-Fri: 9am-6pm EST',
-        'Sat-Sun: 10am-4pm EST',
-      ],
+      details: [+234 - 8058906394],
       action: 'Call Now',
-      link: 'tel:+15551234567',
+      link: 'tel:+234-8058906394,',
     },
     {
       icon: '✉️',
       title: 'Email Us',
       details: [
-        'support@thirstysounds.com',
-        'partners@thirstysounds.com',
-        'press@thirstysounds.com',
+        'thirstysounds1@gmail.com',
       ],
       action: 'Send Email',
-      link: 'mailto:support@thirstysounds.com',
+      link: 'mailto:thirstysounds1@gmail.com',
     },
     {
       icon: '💬',
