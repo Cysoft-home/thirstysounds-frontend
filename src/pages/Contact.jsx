@@ -65,13 +65,7 @@ export default function Contact() {
   };
 
   const contactInfo = [
-    {
-      icon: '📍',
-      title: 'Visit Our Office',
-      details: ['123 Audio Avenue', 'Sound City, SC 10001', 'United States'],
-      action: 'Get Directions',
-      link: 'https://maps.google.com',
-    },
+    
     {
       icon: '📞',
       title: 'Call Us',
