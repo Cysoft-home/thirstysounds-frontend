@@ -1,3 +1,12 @@
+// Override console methods in production - MUST be at the very top
+if (process.env.NODE_ENV === 'production') {
+  console.log = () => {};
+  console.error = () => {};
+  console.warn = () => {};
+  console.info = () => {};
+  console.debug = () => {};
+}
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -105,7 +114,7 @@ function AnalyticsTracker() {
       page_title: document.title || 'Audio Site',
     });
 
-    // Log to console for debugging
+    // Log to console for debugging (will be disabled in production)
     console.log(`Page viewed: ${location.pathname}${location.search}`);
   }, [location]);
 

@@ -3,7 +3,6 @@ import styles from './MiniAudioPlayer.module.css';
 
 export default function MiniAudioPlayer({
   audioUrl,
-  audioId,
   darkMode,
   onPlay,
   onPause,
