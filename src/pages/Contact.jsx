@@ -511,7 +511,6 @@ export default function Contact() {
 
           {/* Map Placeholder */}
           <div className={styles.mapSection}>
-            <h3 className={styles.mapTitle}>Our Location</h3>
             <div className={styles.mapContainer}>
               <div className={styles.mapPlaceholder}>
                 <div className={styles.mapOverlay}>
