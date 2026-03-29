@@ -1,12 +1,3 @@
-// Override console methods in production - MUST be at the very top
-if (process.env.NODE_ENV === 'production') {
-  console.log = () => {};
-  console.error = () => {};
-  console.warn = () => {};
-  console.info = () => {};
-  console.debug = () => {};
-}
-
 import {
   BrowserRouter as Router,
   Routes,
@@ -33,74 +24,113 @@ import ReactGA from 'react-ga4';
 // Initialize GA4
 ReactGA.initialize('G-0R82Z3BV9N');
 
+// Check if we're in production
+const isProduction = process.env.NODE_ENV === 'production';
+
+// Helper function for conditional logging
+const logIfDev = (...args) => {
+  if (!isProduction) {
+    // eslint-disable-next-line no-console
+    console.log(...args);
+  }
+};
+
 // Export analytics tracking functions for use in components
 export const trackAudioPlay = (audioId, audioTitle = '') => {
-  ReactGA.event({
-    category: 'Audio',
-    action: 'play',
-    label: audioId,
-    value: audioTitle,
-  });
-  console.log(`Audio played: ${audioTitle || audioId}`);
+  try {
+    ReactGA.event({
+      category: 'Audio',
+      action: 'play',
+      label: audioId,
+      value: audioTitle,
+    });
+    logIfDev(`Audio played: ${audioTitle || audioId}`);
+  } catch (error) {
+    logIfDev('Error tracking audio play:', error);
+  }
 };
 
 export const trackAudioPause = (audioId, audioTitle = '') => {
-  ReactGA.event({
-    category: 'Audio',
-    action: 'pause',
-    label: audioId,
-    value: audioTitle,
-  });
-  console.log(`Audio paused: ${audioTitle || audioId}`);
+  try {
+    ReactGA.event({
+      category: 'Audio',
+      action: 'pause',
+      label: audioId,
+      value: audioTitle,
+    });
+    logIfDev(`Audio paused: ${audioTitle || audioId}`);
+  } catch (error) {
+    logIfDev('Error tracking audio pause:', error);
+  }
 };
 
 export const trackSearch = (searchTerm, resultCount = 0) => {
-  ReactGA.event({
-    category: 'Search',
-    action: 'search',
-    label: searchTerm,
-    value: resultCount,
-  });
-  console.log(`Search performed: "${searchTerm}" - ${resultCount} results`);
+  try {
+    ReactGA.event({
+      category: 'Search',
+      action: 'search',
+      label: searchTerm,
+      value: resultCount,
+    });
+    logIfDev(`Search performed: "${searchTerm}" - ${resultCount} results`);
+  } catch (error) {
+    logIfDev('Error tracking search:', error);
+  }
 };
 
 export const trackDownload = (audioId, audioTitle = '') => {
-  ReactGA.event({
-    category: 'Audio',
-    action: 'download',
-    label: audioId,
-    value: audioTitle,
-  });
-  console.log(`Audio downloaded: ${audioTitle || audioId}`);
+  try {
+    ReactGA.event({
+      category: 'Audio',
+      action: 'download',
+      label: audioId,
+      value: audioTitle,
+    });
+    logIfDev(`Audio downloaded: ${audioTitle || audioId}`);
+  } catch (error) {
+    logIfDev('Error tracking download:', error);
+  }
 };
 
 export const trackError = (errorType, errorMessage) => {
-  ReactGA.event({
-    category: 'Error',
-    action: errorType,
-    label: errorMessage,
-  });
-  console.log(`Error tracked: ${errorType} - ${errorMessage}`);
+  try {
+    ReactGA.event({
+      category: 'Error',
+      action: errorType,
+      label: errorMessage,
+    });
+    logIfDev(`Error tracked: ${errorType} - ${errorMessage}`);
+  } catch (error) {
+    logIfDev('Error tracking error:', error);
+  }
 };
 
 export const trackShare = (audioId, audioTitle = '', platform = '') => {
-  ReactGA.event({
-    category: 'Audio',
-    action: 'share',
-    label: audioId,
-    value: audioTitle,
-    custom_data: { platform },
-  });
-  console.log(
-    `Audio shared: ${audioTitle || audioId} on ${platform || 'unknown'}`
-  );
+  try {
+    ReactGA.event({
+      category: 'Audio',
+      action: 'share',
+      label: audioId,
+      value: audioTitle,
+      custom_data: { platform },
+    });
+    logIfDev(
+      `Audio shared: ${audioTitle || audioId} on ${platform || 'unknown'}`
+    );
+  } catch (error) {
+    logIfDev('Error tracking share:', error);
+  }
 };
 
 export const trackPageView = (path, title) => {
-  ReactGA.send('pageview', {
-    page_path: path,
-    page_title: title,
-  });
+  try {
+    ReactGA.send('pageview', {
+      page_path: path,
+      page_title: title,
+    });
+  } catch (error) {
+    logIfDev('Error tracking page view:', error);
+  }
 };
 
 // Create a component to handle automatic page tracking
@@ -114,8 +144,8 @@ function AnalyticsTracker() {
       page_title: document.title || 'Audio Site',
     });
 
-    // Log to console for debugging (will be disabled in production)
-    console.log(`Page viewed: ${location.pathname}${location.search}`);
+    // Log to console for debugging (only in development)
+    logIfDev(`Page viewed: ${location.pathname}${location.search}`);
   }, [location]);
 
   return null;
@@ -161,7 +191,7 @@ function NotFound() {
       page_path: window.location.pathname,
       page_title: '404 - Page Not Found',
     });
-    console.log(`404 Page viewed: ${window.location.pathname}`);
+    logIfDev(`404 Page viewed: ${window.location.pathname}`);
   }, []);
 
   return (
