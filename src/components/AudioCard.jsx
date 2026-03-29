@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import MiniAudioPlayer from './MiniAudioPlayer';
+import { trackAudioPlay, trackAudioPause, trackDownload } from '../App';
 import styles from './AudioCard.module.css';
 
 export default function AudioCard({ audio, darkMode }) {
@@ -7,6 +8,27 @@ export default function AudioCard({ audio, darkMode }) {
 
   const handleViewDetails = () => {
     navigate(`/audio/${audio.id}`);
+  };
+
+  const handlePlay = () => {
+    trackAudioPlay(audio.id, audio.title);
+  };
+
+  const handlePause = () => {
+    trackAudioPause(audio.id, audio.title);
+  };
+
+  const handleDownload = () => {
+    trackDownload(audio.id, audio.title);
+    // Trigger actual download
+    if (audio.audio_url) {
+      const link = document.createElement('a');
+      link.href = audio.audio_url;
+      link.download = `${audio.title}.mp3`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   return (
@@ -23,6 +45,8 @@ export default function AudioCard({ audio, darkMode }) {
               audioUrl={audio.audio_url}
               audioId={audio.id}
               darkMode={darkMode}
+              onPlay={handlePlay}
+              onPause={handlePause}
             />
           </div>
         </div>
@@ -81,6 +105,11 @@ export default function AudioCard({ audio, darkMode }) {
           <button onClick={handleViewDetails} className={styles.button}>
             View Details
           </button>
+          {audio.audio_url && (
+            <button onClick={handleDownload} className={styles.downloadButton}>
+              Download
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -94,4 +123,3 @@ function formatDuration(seconds) {
   const secs = Math.floor(seconds % 60);
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
-    

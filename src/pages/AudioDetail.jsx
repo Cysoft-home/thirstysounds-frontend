@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Navigation from '../components/Navigation';
 import AudioPlayer from '../components/AudioPlayer';
 import { useAudioById } from '../hooks/useAudio';
+import { trackAudioPlay, trackAudioPause, trackDownload } from '../App';
 import styles from './AudioDetail.module.css';
 
 export default function AudioDetail() {
@@ -45,6 +46,26 @@ export default function AudioDetail() {
 
   const handleRetry = () => {
     refetch();
+  };
+
+  // Analytics tracking handlers
+  const handlePlay = () => {
+    if (audio) {
+      trackAudioPlay(audio.id, audio.title);
+    }
+  };
+
+  const handlePause = () => {
+    if (audio) {
+      trackAudioPause(audio.id, audio.title);
+    }
+  };
+
+  const handleDownload = () => {
+    if (audio) {
+      trackDownload(audio.id, audio.title);
+      // Add your download logic here if needed
+    }
   };
 
   if (loading) {
@@ -260,6 +281,18 @@ export default function AudioDetail() {
                     <p className={styles.description}>{audio.description}</p>
                   </div>
                 )}
+
+                {/* Download Button */}
+                {audio.audio_url && (
+                  <div className={styles.downloadSection}>
+                    <button
+                      onClick={handleDownload}
+                      className={styles.downloadButton}
+                    >
+                      Download Audio
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -279,6 +312,8 @@ export default function AudioDetail() {
                   audioUrl={audio.audio_url}
                   title={audio.title}
                   darkMode={darkMode}
+                  onPlay={handlePlay}
+                  onPause={handlePause}
                 />
               </div>
             )}
@@ -413,12 +448,4 @@ export default function AudioDetail() {
       </div>
     </main>
   );
-}
-
-// Helper function to format duration (fallback if duration_formatted is not available)
-function formatDuration(seconds) {
-  if (!seconds) return '0:00';
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
 }

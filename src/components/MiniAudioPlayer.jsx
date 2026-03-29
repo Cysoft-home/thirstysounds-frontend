@@ -1,7 +1,13 @@
 import { useState, useRef } from 'react';
 import styles from './MiniAudioPlayer.module.css';
 
-export default function MiniAudioPlayer({ audioUrl, audioId, darkMode }) {
+export default function MiniAudioPlayer({
+  audioUrl,
+  audioId,
+  darkMode,
+  onPlay,
+  onPause,
+}) {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,11 +42,19 @@ export default function MiniAudioPlayer({ audioUrl, audioId, darkMode }) {
       if (isPlaying) {
         audioRef.current.pause();
         setIsPlaying(false);
+        // Call onPause when audio is paused
+        if (onPause) {
+          onPause();
+        }
       } else {
         setIsLoading(true);
         await audioRef.current.play();
         setIsPlaying(true);
         setIsLoading(false);
+        // Call onPlay when audio starts playing
+        if (onPlay) {
+          onPlay();
+        }
       }
     } catch (error) {
       console.error('Playback error:', error);
@@ -51,6 +65,10 @@ export default function MiniAudioPlayer({ audioUrl, audioId, darkMode }) {
 
   const handleEnded = () => {
     setIsPlaying(false);
+    // Call onPause when audio ends naturally
+    if (onPause) {
+      onPause();
+    }
   };
 
   const handleError = (e) => {

@@ -17,6 +17,20 @@ export default function Audio() {
     }
   }, [darkMode]);
 
+  // Analytics tracking handlers for AudioCard
+  const handleAudioPlay = (audioId, audioTitle) => {
+    // These functions will be imported from App and passed down
+    console.log(`Audio played: ${audioTitle} (${audioId})`);
+  };
+
+  const handleAudioPause = (audioId, audioTitle) => {
+    console.log(`Audio paused: ${audioTitle} (${audioId})`);
+  };
+
+  const handleAudioDownload = (audioId, audioTitle) => {
+    console.log(`Audio downloaded: ${audioTitle} (${audioId})`);
+  };
+
   return (
     <main
       className={darkMode ? `${styles.main} ${styles.mainDark}` : styles.main}
@@ -86,6 +100,9 @@ export default function Audio() {
                       key={audio.id}
                       audio={audio}
                       darkMode={darkMode}
+                      onPlay={handleAudioPlay}
+                      onPause={handleAudioPause}
+                      onDownload={handleAudioDownload}
                     />
                   ))}
                 </div>
