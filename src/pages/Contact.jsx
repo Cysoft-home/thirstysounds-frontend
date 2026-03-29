@@ -508,16 +508,6 @@ export default function Contact() {
               </div>
             </div>
           </div>
-
-          {/* Map Placeholder */}
-          <div className={styles.mapSection}>
-            <div className={styles.mapContainer}>
-              <div className={styles.mapPlaceholder}>
-                <div className={styles.mapOverlay}>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
 
