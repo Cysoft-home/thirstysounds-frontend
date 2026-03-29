@@ -515,17 +515,6 @@ export default function Contact() {
             <div className={styles.mapContainer}>
               <div className={styles.mapPlaceholder}>
                 <div className={styles.mapOverlay}>
-                  <div className={styles.mapInfo}>
-                    <span className={styles.mapPin}>📍</span>
-                    <div>
-                      <h4 className={styles.mapAddressTitle}>
-                        ThirstySounds HQ
-                      </h4>
-                      <p className={styles.mapAddress}>
-                        123 Audio Avenue, Sound City, SC 10001
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
